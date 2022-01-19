@@ -32,6 +32,13 @@ export default {
 
     getAllNotice() {
       console.log("获取预告")
+      this.$axios.get('/yjyg').then(response => {
+        if (response.data) {
+          console.log(response.data)
+        }
+      }).catch(error => {
+        console.log(error)
+      })
     }
   }
 

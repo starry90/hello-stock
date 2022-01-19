@@ -13,6 +13,15 @@ module.exports = {
                 pathRewrite: {
                     '^/api': ''
                 }
+            },
+            '/yjyg':{
+                target: 'http://data.10jqka.com.cn/financial/yjyg/',
+                // 允许跨域
+                changeOrigin: true,
+                ws: true,
+                pathRewrite: {
+                    '^/yjyg': ''
+                }
             }
         }
     }
