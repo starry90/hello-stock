@@ -13,8 +13,17 @@
 <script>
 export default {
   name: 'HelloWorld',
+
+  //子组件中的data数据，不是通过父组件传递的是子组件私有的，是可读可写的。
+  //子组件中的所有 props中的数据，都是通过父组件传递给子组件的，是只读的。
   props: {
     msg: String
+  },
+
+  data: function () {
+    return {
+      stockTable: [],
+    };
   },
 
   methods: {
@@ -34,7 +43,19 @@ export default {
       console.log("获取预告")
       this.$axios.get('/yjyg').then(response => {
         if (response.data) {
-          console.log(response.data)
+          // console.log(response.data)
+          const cheerio = require('cheerio');
+          const $ = cheerio.load(response.data);
+          let tbody = $('table > tbody > tr');
+          tbody.each((index, item) => {
+            let stockItem = []
+            $('td', item).each((tdItem) => {
+              stockItem.push($(tdItem).text().trim())
+            })
+            console.log(stockItem)
+            this.stockTable.push(stockItem)
+          })
+          // console.log(this.stockTable)
         }
       }).catch(error => {
         console.log(error)
