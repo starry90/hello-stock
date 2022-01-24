@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
+import elm from 'element-ui'
 // step1：引入 axios
 import Axios from 'axios'
 // step2：把axios挂载到vue的原型中，在vue中每个组件都可以使用axios发送请求,
@@ -10,6 +11,9 @@ Vue.prototype.$axios = Axios
 
 Vue.config.productionTip = false
 
+//Unknown custom element: <el-table> - did you register the component
+Vue.use(elm)
+
 new Vue({
-  render: h => h(App),
+    render: h => h(App),
 }).$mount('#app')

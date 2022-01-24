@@ -7,6 +7,22 @@
     <button @click="testAxios" class="button" type="button">测试</button>
     <button @click="getAllNotice" class="button" type="button">获取预告</button>
 
+    <el-table
+        :data="stockTable"
+        style="width: 100%">
+      <el-table-column
+          v-for="(headItem,position) in stockTableHead"
+          :key="position"
+          :label="headItem"
+      >
+        <!--   scope.row代表stockTable数组中的元素     -->
+        <template slot-scope="scope">
+          <span>{{ scope.row[position] }}</span>
+        </template>
+      </el-table-column>
+
+    </el-table>
+
   </div>
 </template>
 
@@ -22,9 +38,17 @@ export default {
 
   data: function () {
     return {
+      stockTableHead: ['序号', '股票代码', '股票简称', '业绩预告类型', '业绩预告摘要', '净利润变动幅度(%)', '上年同期净利润(元)', '公告日期'],
       stockTable: [],
+      // stockItem: {
+      //   type: Object,
+      //   default: () => {
+      //   }
+      // }
     };
   },
+
+  computed: {},
 
   methods: {
     testAxios() {
