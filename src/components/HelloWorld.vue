@@ -49,7 +49,8 @@ export default {
           let tbody = $('table > tbody > tr');
           tbody.each((index, item) => {
             let stockItem = []
-            $('td', item).each((tdItem) => {
+            //循环必须带下标
+            $('td', item).each((index2, tdItem) => {
               stockItem.push($(tdItem).text().trim())
             })
             console.log(stockItem)
