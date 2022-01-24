@@ -17,7 +17,15 @@
       >
         <!--   scope.row代表stockTable数组中的元素     -->
         <template slot-scope="scope">
-          <span>{{ scope.row[position] }}</span>
+          <span v-if="position!==5&&position!==6">{{ scope.row[position] }}</span>
+          <span v-else-if="position===5&&scope.row[position].indexOf('-')!==-1"
+                class="green-color">{{ scope.row[position] }}</span>
+          <span v-else-if="position===5"
+                class="red-color">{{ scope.row[position] }}</span>
+          <span v-else-if="position===6&&scope.row[position].indexOf('-')!==-1"
+                class="green-color">{{ scope.row[position] }}</span>
+          <span v-else-if="position===6"
+                class="red-color">{{ scope.row[position] }}</span>
         </template>
       </el-table-column>
 
@@ -96,6 +104,14 @@ export default {
 
 .width100p {
   width: 100%;
+}
+
+.red-color {
+  color: red;
+}
+
+.green-color {
+  color: green;
 }
 
 .search-input {
