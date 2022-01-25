@@ -8,8 +8,11 @@
     <button @click="getAllNotice" class="button" type="button">获取预告</button>
 
     <el-table
+        class="width100p"
         :data="stockTable"
-        style="width: 100%">
+        :row-style="{height:'55px'}"
+        :cell-style="stockCellStyle"
+    >
       <el-table-column
           v-for="(headItem,position) in stockTableHead"
           :key="position"
@@ -93,6 +96,24 @@ export default {
       }).catch(error => {
         console.log(error)
       })
+    },
+
+    //单元格的 style 的回调方法，也可以使用一个固定的 Object 为所有单元格设置一样的 Style。
+    //Function({row, column, rowIndex, columnIndex})/Object
+    //示例如下：
+    //column: {…}
+    //columnIndex: 1
+    //row: (8) ['50', '603157', '*ST拉夏', '预计减亏', '净利润-90000万元至-60000万元', '67.38', '-18.41亿', '2022-01-26', __ob__: Observer]
+    //rowIndex: 49
+
+    stockCellStyle(cellInfo) {
+      // console.log(cellInfo)
+
+      if (cellInfo.columnIndex === 4) {
+        return 'text-align: left'
+      } else {
+        return 'text-align: center'
+      }
     }
   }
 
@@ -108,10 +129,16 @@ export default {
 
 .red-color {
   color: red;
+  border: 1px solid red;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .green-color {
   color: green;
+  border: 1px solid green;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .search-input {
