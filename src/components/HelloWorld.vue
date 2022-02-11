@@ -2,14 +2,14 @@
   <div class="hello">
     <h1>{{ msg }}</h1>
 
-    <input class="search-input width100p">
+    <input class="search-input width100p" @input="onSearch($event)">
 
     <button @click="testAxios" class="button" type="button">测试</button>
     <button @click="getAllNotice" class="button" type="button">获取预告</button>
 
     <el-table
         class="width100p"
-        :data="stockTable"
+        :data="stockTableShowList"
         :row-style="{height:'55px'}"
         :cell-style="stockCellStyle"
     >
@@ -51,6 +51,7 @@ export default {
     return {
       stockTableHead: ['序号', '股票代码', '股票简称', '业绩预告类型', '业绩预告摘要', '净利润变动幅度(%)', '上年同期净利润(元)', '公告日期'],
       stockTable: [],
+      stockTableShowList: [],
       // stockItem: {
       //   type: Object,
       //   default: () => {
@@ -91,6 +92,7 @@ export default {
             console.log(stockItem)
             this.stockTable.push(stockItem)
           })
+          this.stockTableShowList = this.stockTable
           // console.log(this.stockTable)
         }
       }).catch(error => {
@@ -114,6 +116,37 @@ export default {
       } else {
         return 'text-align: center'
       }
+    },
+
+    onSearch(inputEvent) {
+      let inputContent = inputEvent.target.value.trim();
+      if (inputContent === "" || inputContent === null) {
+        this.stockTableShowList = this.stockTable
+        console.log("输入内容为空")
+        return
+      }
+
+      let tempStock = []
+      console.log(this.stockTable)
+      this.stockTable.forEach((stockItem) => {
+        //['19', '000069', '华侨城A', '业绩大幅下降', '净利润318848.72万元至413227.94万元,下降幅度为74.86%至67.42%', '-74.86', '126.85亿', '2022-01-29', __ob__: Observer]
+        //比对序号
+        if (stockItem[0].search(inputContent) !== -1) {
+          tempStock.push(stockItem)
+          return
+        }
+        //比对股票代码
+        if (stockItem[1].search(inputContent) !== -1) {
+          tempStock.push(stockItem)
+          return
+        }
+        //比对股票名称
+        if (stockItem[2].search(inputContent) !== -1) {
+          tempStock.push(stockItem)
+        }
+
+      })
+      this.stockTableShowList = tempStock
     }
   }
 
