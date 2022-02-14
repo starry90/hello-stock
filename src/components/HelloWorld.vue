@@ -77,7 +77,7 @@ export default {
 
     getAllNotice() {
       console.log("获取预告")
-      this.$axios.get('/yjyg').then(response => {
+      this.$axios.get('/thsData/financial/yjyg/').then(response => {
         if (response.data) {
           // console.log(response.data)
           const cheerio = require('cheerio');

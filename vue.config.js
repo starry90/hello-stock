@@ -14,13 +14,13 @@ module.exports = {
                     '^/api': ''
                 }
             },
-            '/yjyg':{
-                target: 'http://data.10jqka.com.cn/financial/yjyg/',
+            '/thsData':{
+                target: 'http://data.10jqka.com.cn/',
                 // 允许跨域
                 changeOrigin: true,
                 ws: true,
                 pathRewrite: {
-                    '^/yjyg': ''
+                    '^/thsData': ''
                 }
             }
         }
