@@ -4,7 +4,7 @@
 
     <input class="search-input width100p" @input="onSearch($event)">
 
-    <button @click="testAxios" class="button" type="button">测试</button>
+    <button @click="testAxios" class="button" type="button" v-if="false">测试</button>
     <button @click="getAllNotice" class="button" type="button">获取预告</button>
 
     <el-table
@@ -110,11 +110,18 @@ export default {
 
     stockCellStyle(cellInfo) {
       // console.log(cellInfo)
+      //斑马纹风格
+      let styleBackground
+      if (cellInfo.rowIndex % 2 === 0) {
+        styleBackground = 'background: floralwhite;'
+      } else {
+        styleBackground = 'background: oldlace;'
+      }
 
       if (cellInfo.columnIndex === 4) {
-        return 'text-align: left'
+        return `${styleBackground} text-align: left`
       } else {
-        return 'text-align: center'
+        return `${styleBackground} text-align: center`
       }
     },
 
