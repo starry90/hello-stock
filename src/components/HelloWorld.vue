@@ -1,11 +1,12 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
 
-    <input class="search-input width100p" @input="onSearch($event)">
-
-    <button @click="testAxios" class="button" type="button" v-if="false">测试</button>
-    <button @click="getAllNotice" class="button" type="button">获取预告</button>
+    <div class="title-search flex-row-norap">
+      <h3 class="title-description ml20">{{ msg }} 业绩预告一览</h3>
+      <input class="search-key ml20" @input="onSearch($event)" placeholder="输入股票/基金代码、简称或关键字" >
+      <button class="button ml20" @click="testAxios"  type="button" v-if="false">测试</button>
+      <button class="button ml20" @click="getAllNotice"  type="button">获取预告</button>
+    </div>
 
     <el-table
         class="width100p"
@@ -167,6 +168,15 @@ export default {
   width: 100%;
 }
 
+.ml20 {
+  margin-left: 20px;
+}
+
+.flex-row-norap {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
 .red-color {
   color: red;
   border: 1px solid red;
@@ -181,13 +191,24 @@ export default {
   padding-right: 5px;
 }
 
-.search-input {
+.title-search {
+  align-items: center;
+  height: 50px;
+  width: 100%;
+  background: steelblue;
+}
+
+.title-description {
+  color: white;
+}
+
+.search-key {
   height: 35px;
+  width: 300px;
 }
 
 .button {
   height: 35px;
-  margin: 10px;
 }
 
 </style>
