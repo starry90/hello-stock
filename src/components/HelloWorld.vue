@@ -187,7 +187,7 @@ export default {
       this.stockYAxisData = []
       this.stockSeriesData = []
       this.stockTableShowList.forEach((stockItem) => {
-        this.stockYAxisData.push(stockItem[2])
+        this.stockYAxisData.push(`${stockItem[1]}  ${stockItem[2]}  ${stockItem[3]}`)
         this.stockSeriesData.push(stockItem[5])
       })
       //动态设置高度
@@ -214,6 +214,10 @@ export default {
           bottom: 30
         },
         xAxis: {
+          //限制x轴最大值
+          max: 100,
+          //限制x轴最小值
+          min: -100,
           type: 'value',
           position: 'top',
           splitLine: {
