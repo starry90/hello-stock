@@ -3,12 +3,13 @@
 
     <div class="title-search flex-row-norap">
       <h3 class="title-description ml20">{{ msg }} 业绩预告一览</h3>
-      <input class="search-key ml20" @input="onSearch($event)" placeholder="输入股票/基金代码、简称或关键字" >
-      <button class="button ml20" @click="testAxios"  type="button" v-if="false">测试</button>
-      <button class="button ml20" @click="getAllNotice"  type="button">获取预告</button>
+      <input class="search-key ml20" @input="onSearch($event)" placeholder="输入股票/基金代码、简称或关键字">
+      <button class="button ml20" @click="testAxios" type="button" v-if="false">测试</button>
+      <button class="button ml20" @click="getAllNotice" type="button">获取预告</button>
     </div>
 
     <el-table
+        v-if="false"
         class="width100p"
         :data="stockTableShowList"
         :row-style="{height:'55px'}"
@@ -35,6 +36,8 @@
 
     </el-table>
 
+    <div id="main" style="width: 100%;height:100%;"></div>
+
   </div>
 </template>
 
@@ -53,6 +56,28 @@ export default {
       stockTableHead: ['序号', '股票代码', '股票简称', '业绩预告类型', '业绩预告摘要', '净利润变动幅度(%)', '上年同期净利润(元)', '公告日期'],
       stockTable: [],
       stockTableShowList: [],
+      stockYAxisData: ['ten',
+        'nine',
+        'eight',
+        'seven',
+        'six',
+        'five',
+        'four',
+        'three',
+        'two',
+        'one'],
+      stockSeriesData: [
+        -0.07,
+        -0.09,
+        -0.2,
+        0.44,
+        -0.23,
+        0.08,
+        -0.17,
+        0.47,
+        -0.36,
+        0.18
+      ]
       // stockItem: {
       //   type: Object,
       //   default: () => {
@@ -95,6 +120,7 @@ export default {
           })
           this.stockTableShowList = this.stockTable
           // console.log(this.stockTable)
+          this.showBarChart()
         }
       }).catch(error => {
         console.log(error)
@@ -155,6 +181,70 @@ export default {
 
       })
       this.stockTableShowList = tempStock
+    },
+
+    showBarChart() {
+      this.stockYAxisData = []
+      this.stockSeriesData = []
+      this.stockTableShowList.forEach((stockItem) => {
+        this.stockYAxisData.push(stockItem[2])
+        this.stockSeriesData.push(stockItem[5])
+      })
+      //动态设置高度
+      var chartHeight = this.stockYAxisData.length * 50 + 50
+
+      // 基于准备好的dom，初始化echarts实例
+      var myChart = this.$echarts.init(document.getElementById('main'));
+      // const labelRight = {
+      //   position: 'right'
+      // };
+
+      var option = {
+        title: {
+          text: '业绩预告柱状图'
+        },
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow'
+          }
+        },
+        grid: {
+          top: 80,
+          bottom: 30
+        },
+        xAxis: {
+          type: 'value',
+          position: 'top',
+          splitLine: {
+            lineStyle: {
+              type: 'dashed'
+            }
+          }
+        },
+        yAxis: {
+          type: 'category',
+          axisLine: {show: false},
+          axisLabel: {show: false},
+          axisTick: {show: false},
+          splitLine: {show: false},
+          data: this.stockYAxisData
+        },
+        series: [
+          {
+            name: '净利润变动幅度（%）',
+            type: 'bar',
+            stack: 'Total',
+            label: {
+              show: true,
+              formatter: '{b}'
+            },
+            data: this.stockSeriesData
+          }
+        ]
+      };
+      myChart.resize({height: chartHeight})
+      myChart.setOption(option)
     }
   }
 
