@@ -2,6 +2,8 @@ import Vue from 'vue'
 import App from './App.vue'
 
 import elm from 'element-ui'
+//导入主题
+import './element-variables.scss'
 //Unknown custom element: <el-table> - did you register the component
 Vue.use(elm)
 

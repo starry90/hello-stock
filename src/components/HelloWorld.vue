@@ -3,9 +3,9 @@
 
     <div class="title-search flex-row-norap">
       <h3 class="title-description ml20">{{ msg }} 业绩预告一览</h3>
-      <input class="search-key ml20" @input="onSearch($event)" placeholder="输入股票/基金代码、简称或关键字">
+      <input class="search-key ml20 mr20" @input="onSearch($event)" placeholder="输入股票/基金代码、简称或关键字">
       <button class="button ml20" @click="testAxios" type="button" v-if="false">测试</button>
-      <button class="button ml20" @click="getAllNotice" type="button">获取预告</button>
+      <el-button @click="getAllNotice" type="warning">获取预告</el-button>
     </div>
 
     <el-table
@@ -264,6 +264,10 @@ export default {
 
 .ml20 {
   margin-left: 20px;
+}
+
+.mr20 {
+  margin-right: 20px;
 }
 
 .flex-row-norap {
