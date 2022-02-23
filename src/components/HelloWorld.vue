@@ -5,11 +5,24 @@
       <h3 class="title-description ml20">{{ msg }} 业绩预告一览</h3>
       <input class="search-key ml20 mr20" @input="onSearch($event)" placeholder="输入股票/基金代码、简称或关键字">
       <button class="button ml20" @click="testAxios" type="button" v-if="false">测试</button>
+
       <el-button @click="getAllNotice" type="warning">获取预告</el-button>
+
+      <el-tooltip :content="'风格：' + styleValue" placement="top">
+        <el-switch
+            class="ml20"
+            v-model="styleValue"
+            @change="onStyleChange"
+            active-color="limegreen"
+            inactive-color="red"
+            active-value="列表"
+            inactive-value="图表">
+        </el-switch>
+      </el-tooltip>
     </div>
 
     <el-table
-        v-if="false"
+        v-show="styleValue==='列表'"
         class="width100p"
         :data="stockTableShowList"
         :row-style="{height:'55px'}"
@@ -36,7 +49,7 @@
 
     </el-table>
 
-    <div id="main" style="width: 100%;height:100%;"></div>
+    <div id="stockBar" style="width: 100%;height:100%;" v-show="styleValue==='图表'"></div>
 
   </div>
 </template>
@@ -53,25 +66,17 @@ export default {
 
   data: function () {
     return {
+      styleValue: '列表',
       stockTableHead: ['序号', '股票代码', '股票简称', '业绩预告类型', '业绩预告摘要', '净利润变动幅度(%)', '上年同期净利润(元)', '公告日期'],
       stockTable: [],
       stockTableShowList: [],
-      stockYAxisData: ['ten',
-        'nine',
-        'eight',
-        'seven',
-        'six',
+      stockYAxisData: [
         'five',
         'four',
         'three',
         'two',
         'one'],
       stockSeriesData: [
-        -0.07,
-        -0.09,
-        -0.2,
-        0.44,
-        -0.23,
         0.08,
         -0.17,
         0.47,
@@ -183,6 +188,20 @@ export default {
       this.stockTableShowList = tempStock
     },
 
+    onStyleChange() {
+      if (this.styleValue === '列表') {
+        return
+      }
+
+      //Echarts图表宽度变成100px
+      //https://www.cnblogs.com/zhaohongcheng/p/12918478.html
+      //为了在数据变化之后等待 Vue 完成更新 DOM ，可以在数据变化之后立即使用 Vue.nextTick(callback) 。
+      // 这样回调函数在 DOM 更新完成后就会调用
+      this.$nextTick(function () {
+        this.showBarChart()
+      })
+    },
+
     showBarChart() {
       this.stockYAxisData = []
       this.stockSeriesData = []
@@ -194,7 +213,7 @@ export default {
       var chartHeight = this.stockYAxisData.length * 50 + 50
 
       // 基于准备好的dom，初始化echarts实例
-      var myChart = this.$echarts.init(document.getElementById('main'));
+      var myChart = this.$echarts.init(document.getElementById('stockBar'));
       // const labelRight = {
       //   position: 'right'
       // };
